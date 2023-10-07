@@ -189,7 +189,7 @@ workflows:
             cluster-name: capstone-project
             requires:
               - cluster-test
-        - verify-cluster:
+        - cluster-verify:
             cluster-name: capstone-project
             requires:
               - cluster-deploy
