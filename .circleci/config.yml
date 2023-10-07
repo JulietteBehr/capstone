@@ -84,14 +84,10 @@ jobs:
           command: |
             apk add --update curl
       - run:
-          name: Install sudo
-          command: |
-            apt-get update
-            apt-get install sudo
-      - run:
           name: Docker Build
           command: |
-            sudo service docker start
+            dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 &
+            sleep 10
             docker build -t capstone-project .
             docker tag capstone-project jcbehr/capstone-project
             docker image ls
