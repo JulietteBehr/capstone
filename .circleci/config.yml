@@ -142,7 +142,7 @@ jobs:
           capstone-project
         type: string
     steps:
-      - checkout:
+      - checkout
       # change as above
       - install-kubernetes
       - update-kube-config:
