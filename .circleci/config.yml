@@ -28,14 +28,14 @@ commands:
           name: Install AWS EKS
           command: |
             mkdir -p src
-            curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C src
+            curl --silent --location --retry 5 "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C src
             chmod +x src/eksctl
             SUDO=""
-            if [$(id -u) -ne 0] && which sudo > /dev/null ; then
-              SUDO="sudo"
+            if [ $(id -u) -ne 0 ] && which sudo > /dev/null ; then
+                SUDO="sudo"
             fi
-              $SUDO mv src/eksctl /usr/local/bin
-              rmdir src
+                $SUDO mv src/eksctl /usr/local/bin/
+                rmdir src
 
   install-kubectl:
     steps:
