@@ -11,7 +11,7 @@ install:
 		pip install -r requirements.txt
 	
 	wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
-	chmod +x /bin/hadolint
+	chmod +x ./hadolint
 
 	# curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 	# mv /tmp/eksctl /usr/local/bin
