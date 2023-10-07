@@ -83,10 +83,10 @@ jobs:
           name: Install Curl
           command: |
             apk add --update curl
+      - setup_remote_docker
       - run:
           name: Docker Build
           command: |
-            docker logout
             docker build -t capstone-project .
             docker tag capstone-project jcbehr/capstone-project
             docker image ls
