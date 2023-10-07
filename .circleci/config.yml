@@ -86,7 +86,7 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            docker build -t capstone-project
+            docker build -t capstone-project .
             docker tag capstone-project jcbehr/capstone-project
             docker image ls
       - run:
