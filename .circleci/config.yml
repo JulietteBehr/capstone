@@ -119,12 +119,13 @@ jobs:
   cluster-test:
     docker:
       - image: cimg/python:3.10
+    environment:
+      aws-region: ${AWS_DEFAULT_REGION}
     parameters:
       cluster-name:
         description: |
           EKS Cluster name
         type: string
-      aws-region: ${AWS_DEFAULT_REGION}
     steps:
       - kubernetes/install:
           kubectl-version: v1.22.0
