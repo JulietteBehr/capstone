@@ -119,6 +119,11 @@ jobs:
   cluster-test:
     docker:
       - image: cimg/python:3.10
+    environment:
+      AWS_DEFAULT_REGION: $"AWS_DEFAULT_REGION"
+      AWS_PROFILE: $"AWS_PROFILE"
+      KUBECONFIG_FILE_PATH: $"KUBECONFIG_FILE_PATH"
+      ROLE_ARN: $"ROLE_ARN"
     parameters:
       cluster-name:
         description: |
