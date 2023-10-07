@@ -5,7 +5,6 @@ orbs:
   kubernetes: circleci/kubernetes@0.11.2
 
 commands:
-
   install-aws-cli:
     steps:
       - run:
@@ -13,7 +12,7 @@ commands:
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip "awscliv2.zip"./aws/install
-  
+
   install-nodejs:
     steps:
       - run:
@@ -21,7 +20,7 @@ commands:
           command: |
             curl fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             apt install -y nodejs
-  
+
   install-aws-eks:
     steps:
       - run:
@@ -36,16 +35,15 @@ commands:
             fi
               $SUDO mv src/eksctl /usr/local/bin
               rmdir src
-  
+
   install-kubectl:
     steps:
-      - run: 
+      - run:
           name: Install Kubectl
           command: |
             curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
             install -o root -g root -m 0755 kubetctl /usr/local/bin/kubectl
             kubectl --version client
-
 
 jobs:
   build:
@@ -75,7 +73,7 @@ jobs:
           command: |
             . venv/bin/activate
             make lint
-  
+
   docker-steps:
     docker:
       - image: docker:stable
@@ -96,7 +94,7 @@ jobs:
           command: |
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" docker.io
             docker push jcbehr/capstone-project:latest
-  
+
   eks-create-cluster:
     docker:
       - image: python3.7-alpine3.11
@@ -115,7 +113,7 @@ jobs:
             eksctl create cluster --name capstone-project --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d
             eksctl utils describe-stacks --region us-east-1 --cluster=capstone-project
             eksctl get cluster --name=capstone --region=us-east-1
-  
+
   cluster-test:
     docker:
       - image: cimg/python:3.10
@@ -135,7 +133,7 @@ jobs:
           name: Kube Cluster
           command: |
             kubectl get services
-  
+
   cluster-deploy:
     executor: aws-eks/python3
     parameters:
@@ -156,7 +154,7 @@ jobs:
           get-rollout-status: true
           resource-file-path: deployment.yml
           resource-name: deployment/capstone-project
-  
+
   cluster-verify:
     executor: aws-eks/python3
     parameters:
@@ -176,7 +174,7 @@ jobs:
             kubectl get all
             kubectl get services
             kubectl get deployments
-  
+
   workflows:
     deployment:
       jobs:
@@ -199,7 +197,3 @@ jobs:
             cluster-name: capstone-project
             requires:
               - cluster-deploy
-
-
-
-    
