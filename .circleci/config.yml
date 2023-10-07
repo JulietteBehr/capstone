@@ -88,14 +88,14 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            docker build -t capstone-project2 .
-            docker tag capstone-project2 jcbehr/capstone-project2
+            docker build -t capstone-project .
+            docker tag capstone-project jcbehr/capstone-project
             docker image ls
       - run:
           name: Docker Push
           command: |
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" docker.io
-            docker push jcbehr/capstone-project2:latest
+            docker push jcbehr/capstone-project:latest
 
   eks-create-cluster:
     docker:
@@ -112,9 +112,9 @@ jobs:
       - run:
           name: Create EKS Cluster
           command: |
-            eksctl create cluster --name capstone-project2 --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d
-            eksctl utils describe-stacks --region us-east-1 --cluster=capstone-project2
-            eksctl get cluster --name=capstone-project2 --region=us-east-1
+            eksctl create cluster --name capstone-project --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d
+            eksctl utils describe-stacks --region us-east-1 --cluster=capstone-project
+            eksctl get cluster --name=capstone-project --region=us-east-1
 
   cluster-test:
     docker:
@@ -139,7 +139,7 @@ jobs:
     parameters:
       cluster-name:
         description: |
-          capstone-project2
+          capstone-project
         type: string
     steps:
       - checkout
@@ -151,14 +151,14 @@ jobs:
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yml
-          resource-name: deployment/capstone-project2
+          resource-name: deployment/capstone-project
 
   cluster-verify:
     executor: aws-eks/python3
     parameters:
       cluster-name:
         description: |
-          capstone-project2
+          capstone-project
         type: string
     steps:
       - kubernetes/install
@@ -184,14 +184,14 @@ workflows:
             requires:
               - docker-steps
         - cluster-test:
-            cluster-name: capstone-project2
+            cluster-name: capstone-project
             requires:
               - eks-create-cluster
         - cluster-deploy:
-            cluster-name: capstone-project2
+            cluster-name: capstone-project
             requires:
               - cluster-test
         - cluster-verify:
-            cluster-name: capstone-project2
+            cluster-name: capstone-project
             requires:
               - cluster-deploy
