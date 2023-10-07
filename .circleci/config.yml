@@ -128,7 +128,7 @@ jobs:
           kubectl-version: v1.22.0
       # - aws-eks/update-kubeconfig-with-authenticator:
       - update-kube-config:
-          cluster-name: <<parameters:cluster-name>>
+          cluster-name: \<<parameters:cluster-name>>
       - run:
           name: Kube Cluster
           command: |
