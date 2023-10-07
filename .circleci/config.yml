@@ -48,7 +48,7 @@ commands:
 jobs:
   build:
     docker:
-      - image: python3.7.3-stretch
+      - image: python:3.7.3-stretch
     working_directory: ~/repo
     steps:
       - checkout
@@ -97,7 +97,7 @@ jobs:
 
   eks-create-cluster:
     docker:
-      - image: python3.7-alpine3.11
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run:
