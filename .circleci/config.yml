@@ -146,7 +146,7 @@ jobs:
           cluster-name: <<parameters.cluster-name>>
           aws-region: us-east-1
           install-kubectl: true
-      - kubernetes/create-or-update:
+      - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yml
           resource-name: deployment/capstone-project
