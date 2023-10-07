@@ -119,16 +119,12 @@ jobs:
   cluster-test:
     docker:
       - image: cimg/python:3.10
-    environment:
-      AWS_DEFAULT_REGION: $"AWS_DEFAULT_REGION"
-      AWS_PROFILE: $"AWS_PROFILE"
-      KUBECONFIG_FILE_PATH: $"KUBECONFIG_FILE_PATH"
-      ROLE_ARN: $"ROLE_ARN"
     parameters:
       cluster-name:
         description: |
           EKS Cluster name
         type: string
+      aws-region: ${AWS_DEFAULT_REGION}
     steps:
       - kubernetes/install:
           kubectl-version: v1.22.0
@@ -151,7 +147,7 @@ jobs:
       - kubernetes/install
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: <<parameters.cluster-name>>
-          aws-region: us-east-1
+          aws-region: ${AWS_DEFAULT_REGION}
           install-kubectl: true
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
@@ -169,7 +165,7 @@ jobs:
       - kubernetes/install
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: <<parameters.cluster-name>>
-          aws-region: us-east-1
+          aws-region: ${AWS_DEFAULT_REGION}
       - run:
           name: Get Cluster Status
           command: |
