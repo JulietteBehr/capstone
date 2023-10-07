@@ -114,7 +114,7 @@ jobs:
           command: |
             eksctl create cluster --name capstone-project --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d
             eksctl utils describe-stacks --region us-east-1 --cluster=capstone-project
-            eksctl get cluster --name=capstone --region=us-east-1
+            eksctl get cluster --name=capstone-project --region=us-east-1
 
   cluster-test:
     docker:
