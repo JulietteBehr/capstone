@@ -86,8 +86,7 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 &
-            sleep 10
+            docker logout
             docker build -t capstone-project .
             docker tag capstone-project jcbehr/capstone-project
             docker image ls
