@@ -104,7 +104,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update tar gzip nodejs npm curl
-      - install-awscli
+      - install-aws-cli
       - install-aws-eks
       - install-kubectl
       - run:
