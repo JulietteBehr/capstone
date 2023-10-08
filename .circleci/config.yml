@@ -144,7 +144,7 @@ jobs:
     steps:
       - checkout
       - kubernetes/install:
-          install-kubectl
+          kubectl-version: v1.22.0
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yml
