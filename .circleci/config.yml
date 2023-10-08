@@ -116,23 +116,26 @@ jobs:
             eksctl utils describe-stacks --region us-east-1 --cluster=capstone-project
             eksctl get cluster --name=capstone-project --region=us-east-1
 
-  # cluster-test:
-  #   docker:
-  #     - image: cimg/python:3.10
-  #   environment:
-  #     aws-region: ${AWS_DEFAULT_REGION}
-  #   parameters:
-  #     cluster-name:
-  #       description: |
-  #         EKS Cluster name
-  #       type: string
-  #   steps:
-  #     - kubernetes/install:
-  #         kubectl-version: v1.22.0
-  #     - run:
-  #         name: Kube Cluster
-  #         command: |
-  #           kubectl get services
+  cluster-test:
+    docker:
+      - image: cimg/python:3.10
+    environment:
+      aws-region: ${AWS_DEFAULT_REGION}
+    parameters:
+      cluster-name:
+        description: |
+          EKS Cluster name
+        type: string
+    steps:
+      - kubernetes/install:
+          kubectl-version: v1.22.0
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: <<parameters.cluster-name>>
+          aws-region: ${AWS_DEFAULT_REGION}
+      - run:
+          name: Kube Cluster
+          command: |
+            kubectl get services
 
   cluster-deploy:
     executor: aws-eks/python3
@@ -143,8 +146,11 @@ jobs:
         type: string
     steps:
       - checkout
-      - kubernetes/install:
-          kubectl-version: v1.22.0
+      - kubernetes/install
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          aws-region: ${AWS_DEFAULT_REGION}
+          install-kubectl: true
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yml
@@ -180,14 +186,14 @@ workflows:
         - eks-create-cluster:
             requires:
               - docker-steps
-        # - cluster-test:
-        #     cluster-name: capstone-project
-        #     requires:
-        #       - eks-create-cluster
+        - cluster-test:
+            cluster-name: capstone-project
+            requires:
+              - eks-create-cluster
         - cluster-deploy:
             cluster-name: capstone-project
-            # requires:
-            #   - cluster-test
+            requires:
+              - cluster-test
         - cluster-verify:
             cluster-name: capstone-project
             requires:
