@@ -127,9 +127,12 @@ jobs:
           EKS Cluster name
         type: string
     steps:
-      - install-aws-cli
       - kubernetes/install:
           kubectl-version: v1.22.0
+      - aws-cli/setup:
+          aws-access-key-id: ${AWS_ACCESS_KEY}
+          aws-secret-access-key: ${AWS_SECRET_KEY}
+          aws-region: ${AWS_DEFAULT_REGION}
       - run:
           name: Update Kube config
           command: |
@@ -149,7 +152,6 @@ jobs:
     steps:
       - checkout
       - kubernetes/install
-      - install-aws-cli
       - run:
           name: Update Kube config
           command: |
