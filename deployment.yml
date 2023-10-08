@@ -24,7 +24,7 @@ spec:
       containers:
         - image: jcbehr/capstone-project:latest
           imagePullPolicy: Always
-          name: newimage
+          name: new
           ports:
             - containerPort: 80
 
