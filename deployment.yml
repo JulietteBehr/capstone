@@ -7,7 +7,7 @@ metadata:
   namespace: default
 spec:
   replicas: 2
-  progressDeadlineSeconds: 3600
+  progressDeadlineSeconds: 600
   selector:
     matchLabels:
       app: capstone-project

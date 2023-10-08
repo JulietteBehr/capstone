@@ -116,23 +116,23 @@ jobs:
             eksctl utils describe-stacks --region us-east-1 --cluster=capstone-project
             eksctl get cluster --name=capstone-project --region=us-east-1
 
-  cluster-test:
-    docker:
-      - image: cimg/python:3.10
-    environment:
-      aws-region: ${AWS_DEFAULT_REGION}
-    parameters:
-      cluster-name:
-        description: |
-          EKS Cluster name
-        type: string
-    steps:
-      - kubernetes/install:
-          kubectl-version: v1.22.0
-      - run:
-          name: Kube Cluster
-          command: |
-            kubectl get services
+  # cluster-test:
+  #   docker:
+  #     - image: cimg/python:3.10
+  #   environment:
+  #     aws-region: ${AWS_DEFAULT_REGION}
+  #   parameters:
+  #     cluster-name:
+  #       description: |
+  #         EKS Cluster name
+  #       type: string
+  #   steps:
+  #     - kubernetes/install:
+  #         kubectl-version: v1.22.0
+  #     - run:
+  #         name: Kube Cluster
+  #         command: |
+  #           kubectl get services
 
   cluster-deploy:
     executor: aws-eks/python3
