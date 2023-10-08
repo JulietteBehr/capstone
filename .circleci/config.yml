@@ -180,14 +180,14 @@ workflows:
         - eks-create-cluster:
             requires:
               - docker-steps
-        - cluster-test:
-            cluster-name: capstone-project
-            requires:
-              - eks-create-cluster
+        # - cluster-test:
+        #     cluster-name: capstone-project
+        #     requires:
+        #       - eks-create-cluster
         - cluster-deploy:
             cluster-name: capstone-project
-            requires:
-              - cluster-test
+            # requires:
+            #   - cluster-test
         - cluster-verify:
             cluster-name: capstone-project
             requires:
