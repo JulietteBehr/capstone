@@ -127,6 +127,7 @@ jobs:
           EKS Cluster name
         type: string
     steps:
+      - install-aws-cli
       - kubernetes/install:
           kubectl-version: v1.22.0
       - run:
@@ -148,6 +149,7 @@ jobs:
     steps:
       - checkout
       - kubernetes/install
+      - install-aws-cli
       - run:
           name: Update Kube config
           command: |
