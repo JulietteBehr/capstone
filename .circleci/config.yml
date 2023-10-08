@@ -118,7 +118,7 @@ jobs:
 
   cluster-test:
     docker:
-      - image: cimg/python:3.10
+      - image: amazon/aws-cli:latest
     environment:
       aws-region: ${AWS_DEFAULT_REGION}
     parameters:
