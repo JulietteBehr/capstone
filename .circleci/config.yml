@@ -144,7 +144,7 @@ jobs:
     steps:
       - checkout
       - kubernetes/install:
-          install-kubectl: true
+          install-kubectl
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yml
