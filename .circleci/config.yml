@@ -129,9 +129,10 @@ jobs:
     steps:
       - kubernetes/install:
           kubectl-version: v1.22.0
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: <<parameters.cluster-name>>
-          aws-region: ${AWS_DEFAULT_REGION}
+      - run:
+          name: Update Kube config
+          command: |
+            aws eks update-kubeconfig --region us-east-1 --name capstone-project
       - run:
           name: Kube Cluster
           command: |
@@ -147,10 +148,10 @@ jobs:
     steps:
       - checkout
       - kubernetes/install
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
-          aws-region: ${AWS_DEFAULT_REGION}
-          install-kubectl: true
+      - run:
+          name: Update Kube config
+          command: |
+            aws eks update-kubeconfig --region us-east-1 --name capstone-project
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yml
