@@ -153,6 +153,10 @@ jobs:
           name: Update Kube config
           command: |
             aws eks update-kubeconfig --region us-east-1 --name capstone-project
+      - run:
+          name: Apply Deployment
+          command: |
+            kubectl apply -f deployment.yml
       - kubernetes/create-or-update-resource:
           get-rollout-status: true
           resource-file-path: deployment.yml
